@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">FanDroidVK</string>
+    <integer name="com_vk_sdk_AppId">6150439</integer>
+
+    <string name="screen_name_news">Новости</string>
+
+    //ico
+    <string name="font_heart">&#xE87D;</string>
+    <string name="font_comment">&#xE0B9;</string>
+    <string name="font_repost">&#xE050;</string>
+
+
+</resources>
