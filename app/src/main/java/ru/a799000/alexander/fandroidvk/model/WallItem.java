@@ -6,6 +6,8 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import ru.a799000.alexander.fandroidvk.model.attachment.ApiAttachment;
+
 public class WallItem {
 
     public String senderName;
@@ -37,7 +39,7 @@ public class WallItem {
     private Integer canPin;
     @SerializedName("attachments")
     @Expose
-    private List<Attachment> attachments = new ArrayList<>();
+    private List<ApiAttachment> attachments = new ArrayList<>();
 
     @SerializedName("copy_history")
     @Expose
@@ -139,11 +141,11 @@ public class WallItem {
         this.canPin = canPin;
     }
 
-    public List<Attachment> getAttachments() {
+    public List<ApiAttachment> getAttachments() {
         return attachments;
     }
 
-    public void setAttachments(List<Attachment> attachments) {
+    public void setAttachments(List<ApiAttachment> attachments) {
         this.attachments = attachments;
     }
 

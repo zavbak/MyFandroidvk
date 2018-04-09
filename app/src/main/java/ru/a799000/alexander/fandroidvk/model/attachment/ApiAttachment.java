@@ -1,10 +1,12 @@
 
-package ru.a799000.alexander.fandroidvk.model;
+package ru.a799000.alexander.fandroidvk.model.attachment;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Attachment {
+import ru.a799000.alexander.fandroidvk.model.Photo;
+
+public class ApiAttachment {
 
     @SerializedName("type")
     @Expose
