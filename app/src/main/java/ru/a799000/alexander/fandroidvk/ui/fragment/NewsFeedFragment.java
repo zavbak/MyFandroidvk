@@ -15,17 +15,17 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import ru.a799000.alexander.fandroidvk.CurrentUser;
 import ru.a799000.alexander.fandroidvk.MyApplication;
 import ru.a799000.alexander.fandroidvk.R;
 import ru.a799000.alexander.fandroidvk.common.BaseAdapter;
+import ru.a799000.alexander.fandroidvk.common.utils.VkListHelper;
 import ru.a799000.alexander.fandroidvk.model.WallItem;
+import ru.a799000.alexander.fandroidvk.model.view.BaseViewModel;
 import ru.a799000.alexander.fandroidvk.model.view.NewsItemBodyViewModel;
+import ru.a799000.alexander.fandroidvk.model.view.NewsItemHeaderViewModel;
 import ru.a799000.alexander.fandroidvk.rest.api.WallApi;
 import ru.a799000.alexander.fandroidvk.rest.model.request.WallGetRequestModel;
-import ru.a799000.alexander.fandroidvk.rest.model.response.BaseItemResponse;
-import ru.a799000.alexander.fandroidvk.rest.model.response.Full;
-import ru.a799000.alexander.fandroidvk.rest.model.response.WallGetResponse;
+import ru.a799000.alexander.fandroidvk.rest.model.response.GetWallResponse;
 
 public class NewsFeedFragment extends BaseFragment {
 
@@ -48,12 +48,14 @@ public class NewsFeedFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mWallApi.get(new WallGetRequestModel(-86529522).toMap()).enqueue(new Callback<WallGetResponse>() {
+        mWallApi.get(new WallGetRequestModel(-86529522).toMap()).enqueue(new Callback<GetWallResponse>() {
             @Override
-            public void onResponse(Call<WallGetResponse> call, Response<WallGetResponse> response) {
+            public void onResponse(Call<GetWallResponse> call, Response<GetWallResponse> response) {
 
-                List<NewsItemBodyViewModel> list = new ArrayList<>();
-                for (WallItem item : response.body().response.getItems()) {
+                List<WallItem> wallItems = VkListHelper.getWallList(response.body().response);
+                List<BaseViewModel> list = new ArrayList<>();
+                for (WallItem item : wallItems) {
+                    list.add(new NewsItemHeaderViewModel(item));
                     list.add(new NewsItemBodyViewModel(item));
                 }
                 mAdapter.addItems(list);
@@ -62,7 +64,7 @@ public class NewsFeedFragment extends BaseFragment {
             }
 
             @Override
-            public void onFailure(Call<WallGetResponse> call, Throwable t) {
+            public void onFailure(Call<GetWallResponse> call, Throwable t) {
                 t.printStackTrace();
             }
         });

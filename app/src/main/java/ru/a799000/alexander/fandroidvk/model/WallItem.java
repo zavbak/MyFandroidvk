@@ -1,11 +1,15 @@
 
 package ru.a799000.alexander.fandroidvk.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class WallItem {
+
+    public String senderName;
+    public String senderPhoto;
 
     @SerializedName("id")
     @Expose
@@ -33,7 +37,12 @@ public class WallItem {
     private Integer canPin;
     @SerializedName("attachments")
     @Expose
-    private List<Attachment> attachments = null;
+    private List<Attachment> attachments = new ArrayList<>();
+
+    @SerializedName("copy_history")
+    @Expose
+    private List<WallItem> copyHistory = new ArrayList<>();
+
     @SerializedName("post_source")
     @Expose
     private PostSource postSource;
@@ -49,6 +58,22 @@ public class WallItem {
     @SerializedName("views")
     @Expose
     private Views views;
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public String getSenderPhoto() {
+        return senderPhoto;
+    }
+
+    public void setSenderPhoto(String senderPhoto) {
+        this.senderPhoto = senderPhoto;
+    }
 
     public Integer getId() {
         return id;
@@ -160,6 +185,17 @@ public class WallItem {
 
     public void setViews(Views views) {
         this.views = views;
+    }
+
+    public boolean haveSharedRepost() {
+        return copyHistory.size() > 0;
+    }
+
+    public WallItem getSharedRepost() {
+        if (haveSharedRepost()) {
+            return copyHistory.get(0);
+        }
+        return null;
     }
 
 }
