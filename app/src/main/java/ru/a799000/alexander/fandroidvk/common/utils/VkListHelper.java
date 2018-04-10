@@ -2,6 +2,7 @@ package ru.a799000.alexander.fandroidvk.common.utils;
 
 import java.util.List;
 
+import ru.a799000.alexander.fandroidvk.common.Utils;
 import ru.a799000.alexander.fandroidvk.model.Owner;
 import ru.a799000.alexander.fandroidvk.model.WallItem;
 import ru.a799000.alexander.fandroidvk.rest.model.response.ItemWithSendersResponse;
@@ -15,11 +16,16 @@ public class VkListHelper {
             wallItem.setSenderName(sender.getFullName());
             wallItem.setSenderPhoto(sender.getPhoto());
 
-            if (wallItem.haveSharedRepost()) {
+            wallItem.setAttachmentsString(Utils.convertAttachmentsToFontIcons(wallItem.getAttachments()));
 
+            if (wallItem.haveSharedRepost()) {
                 Owner repostSender = response.getSender(wallItem.getSharedRepost().getFromId());
                 wallItem.getSharedRepost().setSenderName(repostSender.getFullName());
                 wallItem.getSharedRepost().setSenderPhoto(repostSender.getPhoto());
+
+                wallItem.getSharedRepost().setAttachmentsString(Utils.convertAttachmentsToFontIcons(
+                        wallItem.getSharedRepost().getAttachments()
+                ));
             }
         }
         return wallItems;

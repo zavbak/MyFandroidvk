@@ -10,8 +10,9 @@ import ru.a799000.alexander.fandroidvk.model.attachment.ApiAttachment;
 
 public class WallItem {
 
-    public String senderName;
-    public String senderPhoto;
+    public String attachmentsString;
+    private String senderName;
+    private String senderPhoto;
 
     @SerializedName("id")
     @Expose
@@ -60,6 +61,14 @@ public class WallItem {
     @SerializedName("views")
     @Expose
     private Views views;
+
+    public String getAttachmentsString() {
+        return attachmentsString;
+    }
+
+    public void setAttachmentsString(String attachmentsString) {
+        this.attachmentsString = attachmentsString;
+    }
 
     public String getSenderName() {
         return senderName;
