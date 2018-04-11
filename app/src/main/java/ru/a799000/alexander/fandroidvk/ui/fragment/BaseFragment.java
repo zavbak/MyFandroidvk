@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 
+import ru.a799000.alexander.fandroidvk.ui.activity.BaseActivity;
+
 public abstract class BaseFragment extends MvpAppCompatFragment {
 
     private String mToolbarTitle;
@@ -31,4 +33,8 @@ public abstract class BaseFragment extends MvpAppCompatFragment {
 
     @StringRes
     public abstract int onCreateToolbarTitle();
+
+    public BaseActivity getBaseActivity() {
+        return (BaseActivity) getActivity();
+    }
 }

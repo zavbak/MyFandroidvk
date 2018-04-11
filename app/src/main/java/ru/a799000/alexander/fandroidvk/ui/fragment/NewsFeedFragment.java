@@ -9,6 +9,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,26 +55,22 @@ public class NewsFeedFragment extends BaseFeedFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mWallApi.get(new WallGetRequestModel(-73476).toMap()).enqueue(new Callback<GetWallResponse>() {
-            @Override
-            public void onResponse(Call<GetWallResponse> call, Response<GetWallResponse> response) {
-                List<WallItem> wallItems = VkListHelper.getWallList(response.body().response);
-                List<BaseViewModel> list = new ArrayList<>();
 
-                for (WallItem item : wallItems) {
-                    list.add(new NewsItemHeaderViewModel(item));
-                    list.add(new NewsItemBodyViewModel(item));
-                    list.add(new NewsItemFooterViewModel(item));
-                }
-                mAdapter.addItems(list);
-                Toast.makeText(getActivity(), "Likes: " + response.body().response.getItems().get(0).getLikes().getCount(), Toast.LENGTH_LONG).show();
-            }
+        mWallApi.get(new WallGetRequestModel(-86529522).toMap())
+                .flatMap((Function<GetWallResponse, ObservableSource<WallItem>>) getWallResponse ->
+                        Observable.fromIterable(VkListHelper.getWallList(getWallResponse.response)))
 
-            @Override
-            public void onFailure(Call<GetWallResponse> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
+                .flatMap((Function<WallItem, ObservableSource<BaseViewModel>>) wallItem -> {
+                    List<BaseViewModel> baseItems = new ArrayList<>();
+                    baseItems.add(new NewsItemHeaderViewModel(wallItem));
+                    baseItems.add(new NewsItemBodyViewModel(wallItem));
+                    baseItems.add(new NewsItemFooterViewModel(wallItem));
+                    return Observable.fromIterable(baseItems);
+                })
+                .toList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(objects -> mAdapter.addItems(objects));
     }
 
 
