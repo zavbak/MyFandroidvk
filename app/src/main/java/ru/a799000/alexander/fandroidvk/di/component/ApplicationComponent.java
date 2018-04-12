@@ -6,6 +6,7 @@ import dagger.Component;
 import ru.a799000.alexander.fandroidvk.di.module.ApplicationModule;
 import ru.a799000.alexander.fandroidvk.di.module.ManagerModule;
 import ru.a799000.alexander.fandroidvk.di.module.RestModule;
+import ru.a799000.alexander.fandroidvk.mvp.presenter.NewsFeedPresenter;
 import ru.a799000.alexander.fandroidvk.ui.activity.BaseActivity;
 import ru.a799000.alexander.fandroidvk.ui.activity.MainActivity;
 import ru.a799000.alexander.fandroidvk.ui.fragment.NewsFeedFragment;
@@ -26,4 +27,7 @@ public interface ApplicationComponent {
     //holder
     void inject(NewsItemBodyHolder holder);
     void inject(NewsItemFooterHolder holder);
+
+    //presenter
+    void inject(NewsFeedPresenter newsFeedPresenter);
 }
