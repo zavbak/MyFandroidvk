@@ -47,6 +47,7 @@ public class NewsFeedFragment extends BaseFeedFragment {
 
     public NewsFeedFragment() {
         // Required empty public constructor
+
     }
 
 
