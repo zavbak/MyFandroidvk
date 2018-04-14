@@ -19,6 +19,9 @@ public abstract class BaseViewModel {
 
     protected abstract BaseViewHolder onCreateViewHolder(View view);
 
+    public boolean isItemDecorator() {
+        return false;
+    }
 
 
     public enum LayoutTypes {

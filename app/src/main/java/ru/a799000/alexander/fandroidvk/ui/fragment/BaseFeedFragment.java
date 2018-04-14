@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import ru.a799000.alexander.fandroidvk.R;
 import ru.a799000.alexander.fandroidvk.common.BaseAdapter;
+import ru.a799000.alexander.fandroidvk.common.manager.MyLinearLayoutManager;
 import ru.a799000.alexander.fandroidvk.model.view.BaseViewModel;
 import ru.a799000.alexander.fandroidvk.mvp.presenter.BaseFeedPresenter;
 import ru.a799000.alexander.fandroidvk.mvp.view.BaseFeedView;
@@ -49,7 +51,21 @@ public abstract class BaseFeedFragment extends BaseFragment implements BaseFeedV
 
     private void setUpRecyclerView(View rootView) {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_list);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        MyLinearLayoutManager mLinearLayoutManager = new MyLinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+                if (mLinearLayoutManager.isOnNextPagePosition()) {
+                    mBaseFeedPresenter.loadNext(mAdapter.getRealItemCount());
+                }
+            }
+        });
+
+        ((SimpleItemAnimator) mRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
     }
 
     protected void setUpAdapter(RecyclerView rv) {
@@ -89,7 +105,7 @@ public abstract class BaseFeedFragment extends BaseFragment implements BaseFeedV
 
     @Override
     public void showError(String message) {
-        Toast.makeText(getBaseActivity(), message, Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseActivity(),"error" + message, Toast.LENGTH_LONG).show();
     }
 
 
