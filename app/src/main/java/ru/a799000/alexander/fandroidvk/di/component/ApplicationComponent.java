@@ -3,6 +3,7 @@ package ru.a799000.alexander.fandroidvk.di.component;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import ru.a799000.alexander.fandroidvk.common.manager.NetworkManager;
 import ru.a799000.alexander.fandroidvk.di.module.ApplicationModule;
 import ru.a799000.alexander.fandroidvk.di.module.ManagerModule;
 import ru.a799000.alexander.fandroidvk.di.module.RestModule;
@@ -30,4 +31,7 @@ public interface ApplicationComponent {
 
     //presenter
     void inject(NewsFeedPresenter newsFeedPresenter);
+
+    //managers
+    void inject(NetworkManager networkManager);
 }
