@@ -68,5 +68,22 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'io.reactivex.rxjava2:rxjava:2.1.2'
 
+    //butterknife
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    //drawer mikepenz
+    implementation("com.mikepenz:materialdrawer:6.0.7@aar") {
+        transitive = true
+    }
+
+    //required support lib modules
+    compile 'com.mikepenz:google-material-typeface:3.0.1.2.original'
+
+
+
+
+
+
 
 }
