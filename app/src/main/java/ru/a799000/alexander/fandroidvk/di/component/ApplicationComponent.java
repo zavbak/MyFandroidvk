@@ -7,6 +7,8 @@ import ru.a799000.alexander.fandroidvk.common.manager.NetworkManager;
 import ru.a799000.alexander.fandroidvk.di.module.ApplicationModule;
 import ru.a799000.alexander.fandroidvk.di.module.ManagerModule;
 import ru.a799000.alexander.fandroidvk.di.module.RestModule;
+import ru.a799000.alexander.fandroidvk.mvp.presenter.MainPresenter;
+import ru.a799000.alexander.fandroidvk.mvp.presenter.MembersPresenter;
 import ru.a799000.alexander.fandroidvk.mvp.presenter.NewsFeedPresenter;
 import ru.a799000.alexander.fandroidvk.ui.activity.BaseActivity;
 import ru.a799000.alexander.fandroidvk.ui.activity.MainActivity;
@@ -30,8 +32,13 @@ public interface ApplicationComponent {
     void inject(NewsItemFooterHolder holder);
 
     //presenter
-    void inject(NewsFeedPresenter newsFeedPresenter);
+    void inject(NewsFeedPresenter presenter);
+    void inject(MainPresenter presenter);
+    void inject(MembersPresenter presenter);
 
     //managers
     void inject(NetworkManager networkManager);
+
+
+
 }

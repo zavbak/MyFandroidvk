@@ -14,21 +14,28 @@ import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKError;
 import com.vk.sdk.util.VKUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import ru.a799000.alexander.fandroidvk.CurrentUser;
 import ru.a799000.alexander.fandroidvk.MyApplication;
 import ru.a799000.alexander.fandroidvk.R;
 import ru.a799000.alexander.fandroidvk.consts.ApiConstants;
+import ru.a799000.alexander.fandroidvk.model.Profile;
 import ru.a799000.alexander.fandroidvk.mvp.presenter.MainPresenter;
 import ru.a799000.alexander.fandroidvk.mvp.view.MainView;
+import ru.a799000.alexander.fandroidvk.ui.fragment.BaseFragment;
 import ru.a799000.alexander.fandroidvk.ui.fragment.NewsFeedFragment;
 
 public class MainActivity extends BaseActivity implements MainView {
@@ -105,14 +112,38 @@ public class MainActivity extends BaseActivity implements MainView {
 
         mDrawer = new DrawerBuilder()
                 .withActivity(this)
-                .withToolbar(toolbar)
+                .withToolbar(mToolbar)
                 .withTranslucentStatusBar(true)
                 .withActionBarDrawerToggle(true)
                 .withAccountHeader(mAccountHeader)
                 .addDrawerItems(item1, item2, item3,
                         new SectionDrawerItem().withName("Группа"),
                         item4, item5, item6, item7)
+                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
+                    mPresenter.drawerItemClick((int) drawerItem.getIdentifier());
+                    return false;
+                })
                 .build();
+    }
+
+    @Override
+    public void showCurrentUser(Profile profile) {
+        List<IProfile> profileDrawerItems = new ArrayList<>();
+        profileDrawerItems.add(new ProfileDrawerItem().withName(profile.getFullName()).withEmail(VKAccessToken.currentToken().email)
+                .withIcon(profile.getDisplayProfilePhoto()));
+        profileDrawerItems.add(new ProfileSettingDrawerItem().withName("Logout")
+                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
+                    mAccountHeader.removeProfile(0);
+                    mAccountHeader.removeProfile(0);
+                    VKSdk.logout();
+                    return false;
+                }));
+        mAccountHeader.setProfiles(profileDrawerItems);
+    }
+
+    @Override
+    public void showFragmentFromDrawer(BaseFragment baseFragment) {
+        setContent(baseFragment);
     }
 
     @Override

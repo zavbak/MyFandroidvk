@@ -25,7 +25,7 @@ public abstract class BaseActivity extends MvpAppCompatActivity {
     MyFragmentManager myFragmentManager;
 
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public abstract class BaseActivity extends MvpAppCompatActivity {
         setContentView(R.layout.activity_base);
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
 
         FrameLayout parent = (FrameLayout) findViewById(R.id.main_wrapper);
         getLayoutInflater().inflate(getMainContentLayout(), parent);
