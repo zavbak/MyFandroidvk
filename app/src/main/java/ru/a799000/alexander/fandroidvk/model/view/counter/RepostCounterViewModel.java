@@ -1,6 +1,6 @@
 package ru.a799000.alexander.fandroidvk.model.view.counter;
 
-import ru.a799000.alexander.fandroidvk.model.Reposts;
+import ru.a799000.alexander.fandroidvk.model.countable.Reposts;
 
 public class RepostCounterViewModel extends CounterViewModel {
 

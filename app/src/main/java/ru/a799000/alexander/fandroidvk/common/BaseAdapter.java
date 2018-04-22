@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.a799000.alexander.fandroidvk.model.view.BaseViewModel;
-import ru.a799000.alexander.fandroidvk.ui.holder.BaseViewHolder;
+import ru.a799000.alexander.fandroidvk.ui.view.holder.BaseViewHolder;
 
 public class BaseAdapter extends RecyclerView.Adapter<BaseViewHolder<BaseViewModel>> {
 

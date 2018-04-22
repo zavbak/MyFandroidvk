@@ -3,7 +3,7 @@ package ru.a799000.alexander.fandroidvk.model.view;
 import android.view.View;
 
 import ru.a799000.alexander.fandroidvk.model.WallItem;
-import ru.a799000.alexander.fandroidvk.ui.holder.NewsItemBodyHolder;
+import ru.a799000.alexander.fandroidvk.ui.view.holder.NewsItemBodyHolder;
 
 public class NewsItemBodyViewModel extends BaseViewModel {
     private int mId;
@@ -47,7 +47,8 @@ public class NewsItemBodyViewModel extends BaseViewModel {
         return mId;
     }
 
-    public String getmAttachmentString() {
+
+    public String getAttachmentString() {
         return mAttachmentString;
     }
 

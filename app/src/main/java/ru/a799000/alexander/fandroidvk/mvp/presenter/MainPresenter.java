@@ -21,6 +21,8 @@ import ru.a799000.alexander.fandroidvk.mvp.view.MainView;
 import ru.a799000.alexander.fandroidvk.rest.api.UsersApi;
 import ru.a799000.alexander.fandroidvk.rest.model.request.UsersGetRequestModel;
 import ru.a799000.alexander.fandroidvk.ui.fragment.BaseFragment;
+import ru.a799000.alexander.fandroidvk.ui.fragment.BoardFragment;
+import ru.a799000.alexander.fandroidvk.ui.fragment.InfoFragment;
 import ru.a799000.alexander.fandroidvk.ui.fragment.MembersFragment;
 import ru.a799000.alexander.fandroidvk.ui.fragment.MyPostsFragment;
 import ru.a799000.alexander.fandroidvk.ui.fragment.NewsFeedFragment;
@@ -50,10 +52,17 @@ public class MainPresenter extends MvpPresenter<MainView> {
                 fragment = new NewsFeedFragment();
                 break;
             case 2:
+
                 fragment = new MyPostsFragment();
                 break;
             case 4:
                 fragment = new MembersFragment();
+                break;
+            case 5:
+                fragment = new BoardFragment();
+                break;
+            case 6:
+                fragment = new InfoFragment();
                 break;
         }
 

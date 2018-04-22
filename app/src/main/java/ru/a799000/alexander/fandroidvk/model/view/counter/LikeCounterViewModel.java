@@ -1,6 +1,6 @@
 package ru.a799000.alexander.fandroidvk.model.view.counter;
 
-import ru.a799000.alexander.fandroidvk.model.Likes;
+import ru.a799000.alexander.fandroidvk.model.countable.Likes;
 
 public class LikeCounterViewModel extends CounterViewModel{
 

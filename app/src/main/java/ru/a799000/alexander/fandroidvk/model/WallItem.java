@@ -1,8 +1,6 @@
 
 package ru.a799000.alexander.fandroidvk.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -10,6 +8,9 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import ru.a799000.alexander.fandroidvk.model.attachment.ApiAttachment;
+import ru.a799000.alexander.fandroidvk.model.countable.Comments;
+import ru.a799000.alexander.fandroidvk.model.countable.Likes;
+import ru.a799000.alexander.fandroidvk.model.countable.Reposts;
 
 public class WallItem extends RealmObject{
 

@@ -6,8 +6,8 @@ import ru.a799000.alexander.fandroidvk.model.WallItem;
 import ru.a799000.alexander.fandroidvk.model.view.counter.CommentCounterViewModel;
 import ru.a799000.alexander.fandroidvk.model.view.counter.LikeCounterViewModel;
 import ru.a799000.alexander.fandroidvk.model.view.counter.RepostCounterViewModel;
-import ru.a799000.alexander.fandroidvk.ui.holder.BaseViewHolder;
-import ru.a799000.alexander.fandroidvk.ui.holder.NewsItemFooterHolder;
+import ru.a799000.alexander.fandroidvk.ui.view.holder.BaseViewHolder;
+import ru.a799000.alexander.fandroidvk.ui.view.holder.NewsItemFooterHolder;
 
 public class NewsItemFooterViewModel extends BaseViewModel{
 

@@ -5,8 +5,10 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import ru.a799000.alexander.fandroidvk.rest.RestClient;
+import ru.a799000.alexander.fandroidvk.rest.api.BoardApi;
 import ru.a799000.alexander.fandroidvk.rest.api.GroupsApi;
 import ru.a799000.alexander.fandroidvk.rest.api.UsersApi;
+import ru.a799000.alexander.fandroidvk.rest.api.VideoApi;
 import ru.a799000.alexander.fandroidvk.rest.api.WallApi;
 
 @Module
@@ -41,5 +43,17 @@ public class RestModule {
     @Singleton
     public GroupsApi provideGroupsApi() {
         return mRestClient.createService(GroupsApi.class);
+    }
+
+    @Provides
+    @Singleton
+    public BoardApi provideBoardApi() {
+        return mRestClient.createService(BoardApi.class);
+    }
+
+    @Provides
+    @Singleton
+    public VideoApi provideVideoApi() {
+        return mRestClient.createService(VideoApi.class);
     }
 }

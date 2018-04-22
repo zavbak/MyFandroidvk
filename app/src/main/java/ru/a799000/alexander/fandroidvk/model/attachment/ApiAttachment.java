@@ -1,6 +1,7 @@
 
 package ru.a799000.alexander.fandroidvk.model.attachment;
 
+import ru.a799000.alexander.fandroidvk.model.attachment.doc.Doc;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.vk.sdk.api.model.VKAttachments;
@@ -8,6 +9,7 @@ import com.vk.sdk.api.model.VKAttachments;
 import java.util.NoSuchElementException;
 
 import io.realm.RealmObject;
+import ru.a799000.alexander.fandroidvk.model.attachment.video.Video;
 
 public class ApiAttachment extends RealmObject {
 

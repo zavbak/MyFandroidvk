@@ -3,8 +3,8 @@ package ru.a799000.alexander.fandroidvk.model.view;
 import android.view.View;
 
 import ru.a799000.alexander.fandroidvk.model.WallItem;
-import ru.a799000.alexander.fandroidvk.ui.holder.BaseViewHolder;
-import ru.a799000.alexander.fandroidvk.ui.holder.NewsItemHeaderHolder;
+import ru.a799000.alexander.fandroidvk.ui.view.holder.BaseViewHolder;
+import ru.a799000.alexander.fandroidvk.ui.view.holder.NewsItemHeaderHolder;
 
 public class NewsItemHeaderViewModel extends BaseViewModel{
 
