@@ -13,10 +13,14 @@ import butterknife.ButterKnife;
 import ru.a799000.alexander.fandroidvk.MyApplication;
 import ru.a799000.alexander.fandroidvk.R;
 import ru.a799000.alexander.fandroidvk.common.Utils;
+import ru.a799000.alexander.fandroidvk.common.manager.MyFragmentManager;
+import ru.a799000.alexander.fandroidvk.model.Place;
 import ru.a799000.alexander.fandroidvk.model.view.NewsItemFooterViewModel;
 import ru.a799000.alexander.fandroidvk.model.view.counter.CommentCounterViewModel;
 import ru.a799000.alexander.fandroidvk.model.view.counter.LikeCounterViewModel;
 import ru.a799000.alexander.fandroidvk.model.view.counter.RepostCounterViewModel;
+import ru.a799000.alexander.fandroidvk.ui.activity.BaseActivity;
+import ru.a799000.alexander.fandroidvk.ui.fragment.CommentsFragment;
 
 public class NewsItemFooterHolder extends BaseViewHolder<NewsItemFooterViewModel>{
 
@@ -38,9 +42,15 @@ public class NewsItemFooterHolder extends BaseViewHolder<NewsItemFooterViewModel
     @BindView(R.id.tv_reposts_count)
     public TextView tvRepostsCount;
 
+    @BindView(R.id.rl_comments)
+    public View rlComments;
+
 
     @Inject
     Typeface mGoogleFontTypeface;
+
+    @Inject
+    MyFragmentManager mFragmentManager;
 
 
     private Resources mResources;
@@ -69,6 +79,15 @@ public class NewsItemFooterHolder extends BaseViewHolder<NewsItemFooterViewModel
         bindLikes(item.getLikes());
         bindComments(item.getComments());
         bindReposts(item.getReposts());
+
+        rlComments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mFragmentManager.addFragment((BaseActivity) view.getContext(),
+                        CommentsFragment.newInstance(new Place(String.valueOf(item.getOwnerId()), String.valueOf(item.getId()))),
+                        R.id.main_wrapper);
+            }
+        });
 
     }
 
@@ -99,6 +118,7 @@ public class NewsItemFooterHolder extends BaseViewHolder<NewsItemFooterViewModel
         tvLikesCount.setText(null);
         tvCommentsCount.setText(null);
         tvRepostsCount.setText(null);
+        rlComments.setOnClickListener(null);
 
     }
 }
