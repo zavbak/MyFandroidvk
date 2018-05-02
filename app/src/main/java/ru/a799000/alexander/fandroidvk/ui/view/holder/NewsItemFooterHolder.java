@@ -10,15 +10,26 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import io.realm.Realm;
+import io.realm.RealmObject;
 import ru.a799000.alexander.fandroidvk.MyApplication;
 import ru.a799000.alexander.fandroidvk.R;
 import ru.a799000.alexander.fandroidvk.common.Utils;
 import ru.a799000.alexander.fandroidvk.common.manager.MyFragmentManager;
+import ru.a799000.alexander.fandroidvk.common.utils.VkListHelper;
 import ru.a799000.alexander.fandroidvk.model.Place;
+import ru.a799000.alexander.fandroidvk.model.WallItem;
+import ru.a799000.alexander.fandroidvk.model.countable.Likes;
 import ru.a799000.alexander.fandroidvk.model.view.NewsItemFooterViewModel;
 import ru.a799000.alexander.fandroidvk.model.view.counter.CommentCounterViewModel;
 import ru.a799000.alexander.fandroidvk.model.view.counter.LikeCounterViewModel;
 import ru.a799000.alexander.fandroidvk.model.view.counter.RepostCounterViewModel;
+import ru.a799000.alexander.fandroidvk.rest.api.LikeEventOnSubscribe;
+import ru.a799000.alexander.fandroidvk.rest.api.WallApi;
+import ru.a799000.alexander.fandroidvk.rest.model.request.WallGetByIdRequestModel;
 import ru.a799000.alexander.fandroidvk.ui.activity.BaseActivity;
 import ru.a799000.alexander.fandroidvk.ui.fragment.CommentsFragment;
 
@@ -45,6 +56,9 @@ public class NewsItemFooterHolder extends BaseViewHolder<NewsItemFooterViewModel
     @BindView(R.id.rl_comments)
     public View rlComments;
 
+    @BindView(R.id.rl_likes)
+    public View rlLikes;
+
 
     @Inject
     Typeface mGoogleFontTypeface;
@@ -56,6 +70,12 @@ public class NewsItemFooterHolder extends BaseViewHolder<NewsItemFooterViewModel
     private Resources mResources;
 
     private Context mContext;
+
+
+    public  static final String POST = "post";
+
+    @Inject
+    WallApi mWallApi;
 
 
     public NewsItemFooterHolder(View itemView) {
@@ -79,6 +99,15 @@ public class NewsItemFooterHolder extends BaseViewHolder<NewsItemFooterViewModel
         bindLikes(item.getLikes());
         bindComments(item.getComments());
         bindReposts(item.getReposts());
+
+        rlLikes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                like(item);
+            }
+        });
 
         rlComments.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +148,48 @@ public class NewsItemFooterHolder extends BaseViewHolder<NewsItemFooterViewModel
         tvCommentsCount.setText(null);
         tvRepostsCount.setText(null);
         rlComments.setOnClickListener(null);
+        rlLikes.setOnClickListener(null);
 
+    }
+
+
+    public void saveToDb(RealmObject item) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> realm1.copyToRealmOrUpdate(item));
+    }
+
+    public Observable<LikeCounterViewModel> likeObservable(int ownerId, int postId, Likes likes) {
+        return Observable.create(new LikeEventOnSubscribe(POST, ownerId, postId, likes))
+
+                .observeOn(Schedulers.io())
+                .flatMap(count -> {
+
+                    return mWallApi.getById(new WallGetByIdRequestModel(ownerId, postId).toMap());
+                })
+                .flatMap(full -> Observable.fromIterable(VkListHelper.getWallList(full.response)))
+                .doOnNext(this::saveToDb)
+                .map(wallItem -> new LikeCounterViewModel(wallItem.getLikes()));
+    }
+
+    public void like(NewsItemFooterViewModel item) {
+        WallItem wallItem = getWallItemFromRealm(item.getId());
+        likeObservable(wallItem.getOwnerId(), wallItem.getId(), wallItem.getLikes())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(likes -> {
+                    item.setLikes(likes);
+                    bindLikes(likes);
+                }, error -> {
+                    error.printStackTrace();
+                });
+    }
+
+    public WallItem getWallItemFromRealm(int postId) {
+        Realm realm = Realm.getDefaultInstance();
+        WallItem wallItem = realm.where(WallItem.class)
+                .equalTo("id", postId)
+                .findFirst();
+
+        return realm.copyFromRealm(wallItem);
     }
 }
