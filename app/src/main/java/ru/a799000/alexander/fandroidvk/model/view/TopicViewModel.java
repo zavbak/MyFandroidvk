@@ -83,7 +83,7 @@ public class TopicViewModel extends BaseViewModel {
             MyApplication.getApplicationComponent().inject(this);
         }
 
-        @Override
+        @Override//
         public void bindViewHolder(TopicViewModel topicViewModel) {
             tvTitle.setText(topicViewModel.getTitle());
             tvCommentsCount.setText(topicViewModel.getCommentsCount());
