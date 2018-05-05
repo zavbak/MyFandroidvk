@@ -74,14 +74,16 @@ dependencies {
 
     //drawer mikepenz
     implementation("com.mikepenz:materialdrawer:6.0.7@aar") {
+
         transitive = true
     }
 
-    //required support lib modules
+    //required support lib modules шрифты
     compile 'com.mikepenz:google-material-typeface:3.0.1.2.original'
 
 
-
+    //Для прикрепления фалов к сообщениям
+    compile 'com.droidninja:filepicker:2.1.5'
 
 
 
